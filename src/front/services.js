@@ -8,7 +8,7 @@ const postUser = async () => {
   try {
     const response = await fetch(uri, options);
     if (response.ok) {
-      console.log("User created");
+      console.log("User created successfully");
     } else console.error(response.status, " error");
   } catch {
     console.error("Error creating a user");
@@ -32,6 +32,20 @@ export const getAgenda = async () => {
   }
 };
 
+export const deleteContact = async (contactId) => {
+  const uri = `${host}/agendas/${user}/contacts/${contactId}`;
+  const options = { method: "DELETE" };
+  try {
+    const response = await fetch(uri, options);
+    if (response.ok) {
+      console.log("Contact deleted successfully");
+      return getAgenda();
+    } else console.error("Error ", response.status);
+  } catch {
+    console.error("Error deleting contact");
+  }
+};
+
 /*     const postTodo = async (todoToSend) => {
         const uri = `${host}/todos/${user}`;
         const options = {
@@ -49,21 +63,6 @@ export const getAgenda = async () => {
         }
         catch {
             console.error("Error posting todos");
-        }
-    }
-
-    const deleteTodo = async (todoId) => {
-        const uri = `${host}/todos/${todoId}`;
-        const options = { method: "DELETE" };
-        try {
-            const response = await fetch(uri, options);
-            getTodos();
-            if (response.ok) {
-                console.log("Todo deleted successfully");
-            } else console.error("Error ", response.status);
-        }
-        catch {
-            console.error("Error deleting todos");
         }
     }
 
