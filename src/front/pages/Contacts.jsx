@@ -22,7 +22,7 @@ export const Contacts = () => {
         const getAgendaInComponent = async () => {
             const contacts = await getAgenda();
             if (!contacts) {
-                console.error("Error getting agenda");
+                console.error("Error getting agenda in Contacts component");
             }
             else dispatch({
                 type: "get-agenda",
@@ -89,7 +89,7 @@ export const Contacts = () => {
                 <div className="col-8">
                     <ul className="list-group">
                         {contacts.map((item) => {return(
-                            <li className="list-group-item">
+                            <li /* key={item.contact-id} */ className="list-group-item">
                                 <div className="card mb-3">
                                     <div className="row g-0">
                                         <div className="col-md-4">

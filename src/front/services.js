@@ -3,7 +3,7 @@ const user = "alvillalta";
 
 // Fetch
 const postUser = async () => {
-  const uri = `${host}/agenda/${user}`;
+  const uri = `${host}/agendas/${user}`;
   const options = { method: "POST" };
   try {
     const response = await fetch(uri, options);
@@ -16,7 +16,7 @@ const postUser = async () => {
 };
 
 export const getAgenda = async () => {
-  const uri = `${host}/agenda/${user}`;
+  const uri = `${host}/agendas/${user}`;
   const options = { method: "GET" };
   try {
     const response = await fetch(uri, options);
