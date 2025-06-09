@@ -5,10 +5,13 @@ import {
     createRoutesFromElements,
     Route,
 } from "react-router-dom";
-import { Layout } from "./pages/Layout";
-import { Home } from "./pages/Home";
-import { Single } from "./pages/Single";
-import { Demo } from "./pages/Demo";
+import { Layout } from "./pages/Layout.jsx";
+import { Home } from "./pages/Home.jsx";
+import { Characters } from "./pages/Characters.jsx";
+import { Planets } from "./pages/Planets.jsx";
+import { Starships } from "./pages/Starships.jsx";
+import { Contacts } from "./pages/Contacts.jsx";
+import { AddContact } from "./pages/AddContact.jsx";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -23,8 +26,11 @@ export const router = createBrowserRouter(
 
         {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
         <Route path= "/" element={<Home />} />
-        <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
-        <Route path="/demo" element={<Demo />} />
+        <Route path= "/characters" element={<Characters />} />
+        <Route path= "/planets" element={<Planets />} />
+        <Route path= "/starships" element={<Starships />} />
+        <Route path= "/contacts" element={<Contacts />} />
+        <Route path= "/contacts/add-contact" element={<AddContact />} />
       </Route>
     )
 );
