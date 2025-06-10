@@ -51,6 +51,10 @@ export const EditContact = () => {
         }
     }
 
+    const handleCancel = () => {
+       navigate("/contacts");
+    }
+
     return (
         <div className="mt-5">
             <div className="container d-flex justify-content-center">
@@ -86,7 +90,7 @@ export const EditContact = () => {
                         </div>
                         <div className="py-3 g-3">
                             <button type="submit" className="btn btn-primary mx-3">Submit</button>
-                            <button type="button" className="btn btn-primary bg-secondary">Cancel</button>
+                            <button onClick={handleCancel} type="button" className="btn btn-primary bg-secondary">Cancel</button>
                         </div>
                     </form>
                 </div>

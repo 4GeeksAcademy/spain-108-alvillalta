@@ -1,7 +1,7 @@
 const host = "https://playground.4geeks.com/contact";
 const user = "alvillalta";
 
-// Fetch
+
 const postUser = async () => {
   const uri = `${host}/agendas/${user}`;
   const options = { method: "POST" };
@@ -64,21 +64,20 @@ export const deleteContact = async (contactId) => {
   }
 };
 
-  export const putContact = async (contactToEdit) => {
-        const uri = `${host}/agendas/${user}/contacts/${contactToEdit.id}`;
-        const options = {
-            method: "PUT",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify(contactToEdit)
-        };
-        try {
-            const response = await fetch(uri, options);
-            if (response.ok) {
-                console.log("Contact put successfully");
-                return await getAgenda();
-            } else console.error("Error ", response.status);
-        }
-        catch {
-            console.error("Error putting contact");
-        }
-    }
+export const putContact = async (contactToEdit) => {
+  const uri = `${host}/agendas/${user}/contacts/${contactToEdit.id}`;
+  const options = {
+    method: "PUT",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(contactToEdit),
+  };
+  try {
+    const response = await fetch(uri, options);
+    if (response.ok) {
+      console.log("Contact put successfully");
+      return await getAgenda();
+    } else console.error("Error ", response.status);
+  } catch {
+    console.error("Error putting contact");
+  }
+};
