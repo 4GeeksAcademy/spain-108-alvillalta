@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useEffect } from "react";
-import useGlobalReducer from "../hooks/useGlobalReducer";
+import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 
-import { getAgenda, deleteContact } from "../services.js"
+import { getAgenda, deleteContact } from "../../services/contact-services.js"
 
-export const Contacts = () => {
+export const ContactList = () => {
 
     // Navigate
     const navigate = useNavigate();
@@ -70,6 +70,7 @@ export const Contacts = () => {
                                     <div className="card mb-3">
                                         <div className="row g-0">
                                             <div className="col-md-4">
+                                                {/* Images end at id === 100 */}
                                                 <img src={`https://randomuser.me/api/portraits/women/${item.id}.jpg`} className="img-fluid rounded-circle" />
                                             </div>
                                             <div className="col-md-4">

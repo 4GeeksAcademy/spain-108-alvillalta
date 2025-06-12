@@ -3,24 +3,25 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
-import useGlobalReducer from "../hooks/useGlobalReducer";
+import useGlobalReducer from "../../../hooks/useGlobalReducer.jsx";
 
-import { postContact } from "../services.js"
+import { putContact } from "../../../services/contact-services.js"
 
 
-export const AddContact = () => {
+export const EditContact = () => {
 
     // Navigate
     const navigate = useNavigate();
 
     // Global state variables
     const { store, dispatch } = useGlobalReducer();
+    const contactToEdit = store.contactToEdit;
 
     // Local state variables
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
+    const [name, setName] = useState(contactToEdit.name);
+    const [email, setEmail] = useState(contactToEdit.email);
+    const [phone, setPhone] = useState(contactToEdit.phone);
+    const [address, setAddress] = useState(contactToEdit.address);
 
     // Controlled inputs
     const handleName = event => setName(event.target.value);
@@ -29,35 +30,37 @@ export const AddContact = () => {
     const handleAddress = event => setAddress(event.target.value);
 
     // Handlers
-    const handleSubmitAddContact = async (event) => {
+    const handleSubmitEditContact = async (event) => {
         event.preventDefault();
-        const newContact = {
+        const editedContact = {
             "name": name,
             "email": email,
             "phone": phone,
-            "address": address
+            "address": address,
+            "id": contactToEdit.id
         }
-        const contacts = await postContact(newContact);
+        const contacts = await putContact(editedContact);
         if (!contacts) {
             console.error("Error in AddContact component");
         }
-        else {dispatch({
-            type: "get-agenda",
-            payload: contacts
-        });
-        setName("");
-        setEmail("");
-        setPhone("");
-        setAddress("");
-        navigate("/contacts");
+        else {
+            dispatch({
+                type: "get-agenda",
+                payload: contacts
+            });
+            navigate("/contacts");
         }
+    }
+
+    const handleCancel = () => {
+        navigate("/contacts");
     }
 
     return (
         <div className="mt-5">
             <div className="container d-flex justify-content-center">
                 <div className="col-8 d-flex justify-content-between">
-                    <h3>Add a new contact</h3>
+                    <h3>Edit contact</h3>
                     <Link to="/contacts">
                         <span>Back to Contacts</span>
                     </Link>
@@ -65,7 +68,7 @@ export const AddContact = () => {
             </div>
             <div className="container d-flex justify-content-center">
                 <div className="col-8">
-                    <form onSubmit={handleSubmitAddContact}>
+                    <form onSubmit={handleSubmitEditContact}>
                         <div className="form-group">
                             <label htmlFor="name">Full Name</label>
                             <input type="text" className="form-control" id="name" placeholder="Your name here"
@@ -88,7 +91,7 @@ export const AddContact = () => {
                         </div>
                         <div className="py-3 g-3">
                             <button type="submit" className="btn btn-primary mx-3">Submit</button>
-                            <button type="button" className="btn btn-primary bg-secondary">Cancel</button>
+                            <button onClick={handleCancel} type="button" className="btn btn-primary bg-secondary">Cancel</button>
                         </div>
                     </form>
                 </div>
