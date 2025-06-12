@@ -1,9 +1,10 @@
-import react from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export const Starships = () => {
     return (
-        <div>
-            <h1>Starships</h1>
+        <div className="text-center mt-5">
+            <h3>Starships</h3>
         </div>
     )
 }

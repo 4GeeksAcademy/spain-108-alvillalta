@@ -1,78 +1,98 @@
-import react from "react";
-
-import { useState, useEffect } from "react";
-
+import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import useGlobalReducer from "../hooks/useGlobalReducer";
-import { getAgenda } from "../services/contacts.js";
+import { useEffect } from "react";
+import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
+import { getAgenda, deleteContact } from "../services/contact-services.js"
 
 export const ContactList = () => {
-  const { store, dispatch } = useGlobalReducer();
-  const contacts = store.contacts
 
-  useEffect(() => {
-    const get = async () => {
-      const contacts = await getAgenda();
-      dispatch({
-        type: "get_contacts",
-        payload: contacts
-      })
-    };
-    get();
-  }, [])
+    // Navigate
+    const navigate = useNavigate();
 
-  return (
-    <div className="col-10 col-lg-8 mx-auto">
-      <div className="container">
-        <div className="d-flex justify-content-between justify-content-md-start gap-3 gap-md-5 align-items-center pt-4 pb-3">
-          <h2 className="text-light">Contacts</h2>
-          <Link to="/add-contact" className="text-decoration-none">
-            <div className="py-1 px-3 rounded text-light bg-secondary">Add Contact</div>
-          </Link>
-        </div>
-      </div>
-      <div className="container">
-        <ul className="list-group text-start">
-          {contacts.map((item) => {
-            return (
-              <li key={item.id} className="list-group-item w-md-50 p-0 border-0 rounded mb-3">
-                <div className="card bg-light">
-                  <div className="row g-0 d-flex justify-content-start align-items-center">
-                    <div className="col-md-3 col-lg-3 d-flex justify-content-center justify-content-md-start pt-3 py-md-2 ps-md-4">
-                      <img src="https://randomuser.me/api/portraits/women/2.jpg" className="img-fluid rounded-circle" />
-                    </div>
-                    <div className="col-md-6 pt-3 pb-md-3">
-                      <h4 className="text-center text-md-start pb-0 mb-1 p-md-0">{item.name}</h4>
-                      <div className="d-flex justify-content-center justify-content-md-start">
-                        <ul className="list-group">
-                          <li className="list-group-item pb-1 p-md-0 m-0 border-0 bg-light">
-                            <i className="fa-solid fa-location-dot pe-2"></i>
-                            <span className="ps-1">{item.address}</span>
-                          </li>
-                          <li className="list-group-item py-1 p-md-0 m-0 border-0 bg-light">
-                            <i className="fa-solid fa-phone pe-2"></i>
-                            {item.phone}
-                          </li>
-                          <li className="list-group-item pt-1 p-md-0 m-0 border-0 bg-light">
-                            <i className="fa-solid fa-envelope pe-2"></i>
-                            {item.email}
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="col-md-3 d-flex justify-content-center justify-content-md-end py-2 pe-md-5 mb-2 m-md-0 gap-3">
-                      <button type="button" className="btn btn-secondary"><i class="fa-solid fa-pen"></i></button>
-                      <button type="button" className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                  </div>
+    // Global variables
+    const { store, dispatch } = useGlobalReducer();
+    const contacts = store.contacts;
+
+    // UseEffect
+    useEffect(() => {
+        const getAgendaInComponent = async () => {
+            const contacts = await getAgenda();
+            if (!contacts) {
+                console.error("Error in Contact component");
+            }
+            else dispatch({
+                type: "get-agenda",
+                payload: contacts
+            });
+        }
+        getAgendaInComponent();
+    }, [])
+
+    // Handlers
+    const handleDeleteContact = async (contactItem) => {
+        const contacts = await deleteContact(contactItem.id);
+        if (!contacts) {
+            console.error("Error in Contact component");
+        }
+        else dispatch({
+            type: "get-agenda",
+            payload: contacts
+        });
+    }
+
+    const handleEditContact = (contactItem) => {
+        dispatch({
+            type: "edit-contact",
+            payload: contactItem
+        })
+        navigate("/contacts/edit-contact");
+    }
+
+    return (
+        <div className="mt-5">
+            <div className="container d-flex justify-content-center">
+                <div className="col-8 d-flex justify-content-between">
+                    <h3>Contacts</h3>
+                    <Link to="/contacts/add-contact">
+                        <span>Add Contact</span>
+                    </Link>
                 </div>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-    </div>
-  )
+            </div>
+            <div className="container d-flex justify-content-center">
+                <div className="col-8">
+                    <ul className="list-group">
+                        {contacts.map(item => {
+                            return (
+                                <li key={item.id} className="list-group-item">
+                                    <div className="card mb-3">
+                                        <div className="row g-0">
+                                            <div className="col-md-4">
+                                                {/* Images end at id === 100 */}
+                                                <img src={`https://randomuser.me/api/portraits/women/${item.id}.jpg`} className="img-fluid rounded-circle" />
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="card-body">
+                                                    <h5 className="card-title">{item.name}</h5>
+                                                    <p className="card-text">{item.email}</p>
+                                                    <p className="card-text">{item.phone}</p>
+                                                    <p className="card-text">{item.address}</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4 gap-2">
+                                                <button onClick={() => handleEditContact(item)} type="button" className="btn btn-secondary mx-3"><i class="fa-solid fa-pen"></i></button>
+                                                <button onClick={() => handleDeleteContact(item)} type="button" className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    )
 }

@@ -1,45 +1,99 @@
-import react from "react";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
+import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+
+import { postContact } from "../services/contact-services.js"
+
 
 export const AddContact = () => {
+
+    // Navigate
+    const navigate = useNavigate();
+
+    // Global state variables
+    const { store, dispatch } = useGlobalReducer();
+
+    // Local state variables
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+
+    // Controlled inputs
+    const handleName = event => setName(event.target.value);
+    const handleEmail = event => setEmail(event.target.value);
+    const handlePhone = event => setPhone(event.target.value);
+    const handleAddress = event => setAddress(event.target.value);
+
+    // Handlers
+    const handleSubmitAddContact = async (event) => {
+        event.preventDefault();
+        const newContact = {
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "address": address
+        }
+        const contacts = await postContact(newContact);
+        if (!contacts) {
+            console.error("Error in AddContact component");
+        }
+        else {
+            dispatch({
+                type: "get-agenda",
+                payload: contacts
+            });
+            setName("");
+            setEmail("");
+            setPhone("");
+            setAddress("");
+            navigate("/contacts");
+        }
+    }
+
     return (
-        <div className="col-10 col-md-8 col-lg-6 mx-auto text-secondary">
-            <div className="container">
-                <div className="d-flex justify-content-start align-items-center pt-4 pb-3">
-                    <h2 className="text-light mb-0">Add a new contact</h2>
+        <div className="mt-5">
+            <div className="container d-flex justify-content-center">
+                <div className="col-8 d-flex justify-content-between">
+                    <h3>Add a new contact</h3>
+                    <Link to="/contacts">
+                        <span>Back to Contacts</span>
+                    </Link>
                 </div>
             </div>
-            <div className="container">
-                <form>
-                    <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Full Name
-                            <span className="text-warning ps-1">*</span>
-                        </label>
-                        <input type="text" className="form-control" id="name" placeholder="Your name here" />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email
-                            <span className="text-warning ps-1">*</span>
-                        </label>
-                        <input type="text" className="form-control" id="email" placeholder="Your email here" />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="phone" className="form-label">Phone
-                            <span className="text-warning ps-1">*</span>
-                        </label>
-                        <input type="text" className="form-control" id="phone" placeholder="Your phone here" />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="address" className="form-label">Address
-                            <span className="text-warning ps-1">*</span>
-                        </label>
-                        <input type="text" className="form-control" id="address" placeholder="Your address here" />
-                    </div>
-                    <div className="d-flex justify-content-end pt-1 mb-3 gap-3">
-                        <button type="submit" className="btn btn-warning py-1 px-3 text-dark">Save</button>
-                        <button type="reset" className="btn btn-secondary py-1 px-3 text-light">Cancel</button>
-                    </div>
-                </form>
+            <div className="container d-flex justify-content-center">
+                <div className="col-8">
+                    <form onSubmit={handleSubmitAddContact}>
+                        <div className="form-group">
+                            <label htmlFor="name">Full Name</label>
+                            <input type="text" className="form-control" id="name" placeholder="Your name here"
+                                value={name} onChange={handleName} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input type="text" className="form-control" id="email" placeholder="Your email here"
+                                value={email} onChange={handleEmail} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="phone">Phone</label>
+                            <input type="text" className="form-control" id="phone" placeholder="Your phone here"
+                                value={phone} onChange={handlePhone} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="address">Address</label>
+                            <input type="text" className="form-control" id="address" placeholder="Your address here"
+                                value={address} onChange={handleAddress} />
+                        </div>
+                        <div className="py-3 g-3">
+                            <button type="submit" className="btn btn-primary mx-3">Submit</button>
+                            <button type="button" className="btn btn-primary bg-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    );
+    )
 }
