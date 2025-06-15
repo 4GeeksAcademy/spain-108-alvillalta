@@ -1,18 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { useEffect } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 import { getAgenda, deleteContact } from "../services/contact-services.js"
 
 export const ContactList = () => {
 
-    // Navigate
+    // Declarations
     const navigate = useNavigate();
 
-    // Global variables
     const { store, dispatch } = useGlobalReducer();
     const contacts = store.contacts;
 
@@ -20,11 +17,8 @@ export const ContactList = () => {
     useEffect(() => {
         const getAgendaInComponent = async () => {
             const contacts = await getAgenda();
-            if (!contacts) {
-                console.error("Error in Contact component");
-            }
-            else dispatch({
-                type: "get-agenda",
+            dispatch({
+                type: "GET-AGENDA",
                 payload: contacts
             });
         }
@@ -32,25 +26,23 @@ export const ContactList = () => {
     }, [])
 
     // Handlers
-    const handleDeleteContact = async (contactItem) => {
-        const contacts = await deleteContact(contactItem.id);
-        if (!contacts) {
-            console.error("Error in Contact component");
-        }
-        else dispatch({
-            type: "get-agenda",
+    const handleDeleteContact = async (item) => {
+        const contacts = await deleteContact(item.id);
+        dispatch({
+            type: "GET-AGENDA",
             payload: contacts
         });
     }
 
-    const handleEditContact = (contactItem) => {
+    const handleEditContact = (item) => {
         dispatch({
-            type: "edit-contact",
-            payload: contactItem
+            type: "EDIT-CONTACT",
+            payload: item
         })
         navigate("/contacts/edit-contact");
     }
 
+    // Render
     return (
         <div className="mt-5">
             <div className="container d-flex justify-content-center">
@@ -63,34 +55,29 @@ export const ContactList = () => {
             </div>
             <div className="container d-flex justify-content-center">
                 <div className="col-8">
-                    <ul className="list-group">
-                        {contacts.map(item => {
-                            return (
-                                <li key={item.id} className="list-group-item">
-                                    <div className="card mb-3">
-                                        <div className="row g-0">
-                                            <div className="col-md-4">
-                                                {/* Images end at id === 100 */}
-                                                <img src={`https://randomuser.me/api/portraits/women/${item.id}.jpg`} className="img-fluid rounded-circle" />
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{item.name}</h5>
-                                                    <p className="card-text">{item.email}</p>
-                                                    <p className="card-text">{item.phone}</p>
-                                                    <p className="card-text">{item.address}</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 gap-2">
-                                                <button onClick={() => handleEditContact(item)} type="button" className="btn btn-secondary mx-3"><i class="fa-solid fa-pen"></i></button>
-                                                <button onClick={() => handleDeleteContact(item)} type="button" className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
-                                            </div>
+                    {contacts.map(item => {
+                        return (
+                            <div className="card mb-3">
+                                <div className="row g-0">
+                                    <div className="col-md-4 d-flex align-items-center px-3">
+                                        <img src={`https://randomuser.me/api/portraits/women/${item.id}.jpg`} className="img-fluid rounded-circle" />
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div className="card-body">
+                                            <h5 className="card-title">{item.name}</h5>
+                                            <p className="card-text"><i className="fa-solid fa-envelope pe-2"></i>{item.email}</p>
+                                            <p className="card-text"><i class="fa-solid fa-phone pe-2"></i>{item.phone}</p>
+                                            <p className="card-text"><i class="fa-solid fa-location-pin pe-2"></i>{item.address}</p>
                                         </div>
                                     </div>
-                                </li>
-                            )
-                        })}
-                    </ul>
+                                    <div className="col-md-4 d-flex align-items-center px-3 gap-2 ">
+                                        <button onClick={() => handleEditContact(item)} type="button" className="btn btn-secondary mx-3"><i class="fa-solid fa-pen"></i></button>
+                                        <button onClick={() => handleDeleteContact(item)} type="button" className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>

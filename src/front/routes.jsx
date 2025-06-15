@@ -8,7 +8,7 @@ import {
 import { Layout } from "./pages/Layout.jsx";
 import { Home } from "./pages/Home.jsx";
 import { Characters } from "./pages/Characters.jsx";
-import { CharacterDetail } from "./pages/CharacterDetail.jsx";
+import { CharacterDetails } from "./pages/CharacterDetails.jsx";
 import { Planets } from "./pages/Planets.jsx";
 import { Starships } from "./pages/Starships.jsx";
 import { ContactList } from "./pages/ContactList.jsx";
@@ -29,7 +29,7 @@ export const router = createBrowserRouter(
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
       <Route path="/" element={<Home />} />
       <Route path="/characters" element={<Characters />} />
-      <Route path="/characters/:id" element={<CharacterDetail />} />
+      <Route path="/characters/:characterId" element={<CharacterDetails />} />
       <Route path="/planets" element={<Planets />} />
       <Route path="/starships" element={<Starships />} />
       <Route path="/contacts" element={<ContactList />} />

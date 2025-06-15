@@ -1,8 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 import { postContact } from "../services/contact-services.js"
@@ -10,10 +8,7 @@ import { postContact } from "../services/contact-services.js"
 
 export const AddContact = () => {
 
-    // Navigate
     const navigate = useNavigate();
-
-    // Global state variables
     const { store, dispatch } = useGlobalReducer();
 
     // Local state variables
@@ -28,7 +23,6 @@ export const AddContact = () => {
     const handlePhone = event => setPhone(event.target.value);
     const handleAddress = event => setAddress(event.target.value);
 
-    // Handlers
     const handleSubmitAddContact = async (event) => {
         event.preventDefault();
         const newContact = {
@@ -37,21 +31,12 @@ export const AddContact = () => {
             "phone": phone,
             "address": address
         }
-        const contacts = await postContact(newContact);
-        if (!contacts) {
-            console.error("Error in AddContact component");
-        }
-        else {
-            dispatch({
-                type: "get-agenda",
-                payload: contacts
-            });
-            setName("");
-            setEmail("");
-            setPhone("");
-            setAddress("");
-            navigate("/contacts");
-        }
+        await postContact(newContact);
+        navigate("/contacts");
+    }
+
+    const handleCancel = () => {
+        navigate("/contacts");
     }
 
     return (
@@ -89,7 +74,7 @@ export const AddContact = () => {
                         </div>
                         <div className="py-3 g-3">
                             <button type="submit" className="btn btn-primary mx-3">Submit</button>
-                            <button type="button" className="btn btn-primary bg-secondary">Cancel</button>
+                            <button onClick={handleCancel} type="button" className="btn btn-primary bg-secondary">Cancel</button>
                         </div>
                     </form>
                 </div>

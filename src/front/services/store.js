@@ -2,21 +2,32 @@ export const initialStore = () => {
   return {
     contacts: [],
     contactToEdit: {},
-    starWars: [],
+    characters: [],
+    characterDetails: {},
+    favorites: []
   };
 };
 
 export default function storeReducer(store, action = {}) {
   switch (action.type) {
-    case "get-agenda":
+    case "GET-AGENDA":
       return { ...store, contacts: action.payload };
 
-    case "edit-contact":
+    case "EDIT-CONTACT":
       return { ...store, contactToEdit: action.payload };
 
-    case "get-star-wars":
-      return { ...store, starWars: action.payload };
+    case "GET-CHARACTERS":
+      return { ...store, characters: action.payload };
 
+    case "GET-CHARACTER-DETAILS":
+      return { ...store, characterDetails: action.payload}
+
+    case "ADD-FAVORITES":
+      return { ...store, favorites: [...store.favorites, action.payload] };
+
+    case "REMOVE-FAVORITES":
+      return {...store, favorites: store.favorites.filter(item => item.id !== action.payload.id)}
+    
     default:
       throw Error("Unknown action.");
   }
