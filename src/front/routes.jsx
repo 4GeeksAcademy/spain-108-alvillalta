@@ -7,12 +7,15 @@ import {
 } from "react-router-dom";
 import { Layout } from "./pages/Layout.jsx";
 import { Home } from "./pages/Home.jsx";
-import { Characters } from "./pages/star-wars/Characters.jsx";
-import { Planets } from "./pages/star-wars/Planets.jsx";
-import { Starships } from "./pages/star-wars/Starships.jsx";
-import { ContactList } from "./pages/contact-list/ContactList.jsx";
-import { AddContact } from "./pages/contact-list/contact-operations/AddContact.jsx";
-import { EditContact } from "./pages/contact-list/contact-operations/EditContact.jsx";
+import { ContactList } from "./pages/ContactList.jsx";
+import { AddContact } from "./pages/AddContact.jsx";
+import { EditContact } from "./pages/EditContact.jsx";
+import { Characters } from "./pages/Characters.jsx";
+import { CharacterDetails } from "./pages/CharacterDetails.jsx";
+import { Planets } from "./pages/Planets.jsx";
+import { PlanetDetails } from "./pages/PlanetDetails.jsx";
+import { Starships } from "./pages/Starships.jsx";
+import { StarshipDetails } from "./pages/StarshipDetails.jsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,12 +30,15 @@ export const router = createBrowserRouter(
 
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
       <Route path="/" element={<Home />} />
-      <Route path="/characters" element={<Characters />} />
-      <Route path="/planets" element={<Planets />} />
-      <Route path="/starships" element={<Starships />} />
       <Route path="/contacts" element={<ContactList />} />
       <Route path="/contacts/add-contact" element={<AddContact />} />
       <Route path="/contacts/edit-contact" element={<EditContact />} />
+      <Route path="/characters" element={<Characters />} />
+      <Route path="/characters/:characterId" element={<CharacterDetails />} />
+      <Route path="/planets" element={<Planets />} />
+      <Route path="/planets/:planetId" element={<PlanetDetails />} />
+      <Route path="/starships" element={<Starships />} />
+      <Route path="/starships/:starshipId" element={<StarshipDetails />} />
     </Route>
   )
 );

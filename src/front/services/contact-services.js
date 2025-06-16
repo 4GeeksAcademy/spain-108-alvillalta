@@ -1,15 +1,14 @@
 const host = "https://playground.4geeks.com/contact";
 const user = "alvillalta";
 
-
 const postUser = async () => {
   const uri = `${host}/agendas/${user}`;
   const options = { method: "POST" };
   try {
     const response = await fetch(uri, options);
-    if (response.ok) {
-      console.log("User created successfully");
-    } else console.error(response.status, " error");
+    if (!response.ok) {
+      console.log(response.status, " error");
+    }
   } catch {
     console.error("Error creating a user");
   }
@@ -20,13 +19,13 @@ export const getAgenda = async () => {
   const options = { method: "GET" };
   try {
     const response = await fetch(uri, options);
-    if (response.ok) {
-      console.log("Agenda got successfully");
-    } else if (response.status === 404) {
+    if (response.status === 404) {
       return postUser();
-    } else console.error(response.status, " error");
-    const agendaJson = await response.json();
-    return agendaJson.contacts;
+    } else if (!response.ok) {
+      console.log(response.status, " error");
+    }
+    const agendaData = await response.json();
+    return agendaData.contacts;
   } catch {
     console.error("Error getting agenda");
   }
@@ -41,11 +40,11 @@ export const postContact = async (newContact) => {
   };
   try {
     const response = await fetch(uri, options);
-    if (response.ok) {
-      console.log("Contact posted successfully");
-      return await getAgenda();
-    } else console.error(response.status, " error");
-  } catch {
+    if (!response.ok) {
+      console.log(response.status, " error");
+    }
+  }
+  catch {
     console.error("Error posting contact");
   }
 };
@@ -55,29 +54,30 @@ export const deleteContact = async (contactId) => {
   const options = { method: "DELETE" };
   try {
     const response = await fetch(uri, options);
-    if (response.ok) {
-      console.log("Contact deleted successfully");
-      return await getAgenda();
-    } else console.error("Error ", response.status);
-  } catch {
+    if (!response.ok) {
+      console.log(response.status, " error");
+    }
+    return await getAgenda();
+  }
+  catch {
     console.error("Error deleting contact");
   }
 };
 
-export const putContact = async (contactToEdit) => {
-  const uri = `${host}/agendas/${user}/contacts/${contactToEdit.id}`;
+export const putContact = async (editedContact) => {
+  const uri = `${host}/agendas/${user}/contacts/${editedContact.id}`;
   const options = {
     method: "PUT",
     headers: { "Content-type": "application/json" },
-    body: JSON.stringify(contactToEdit),
+    body: JSON.stringify(editedContact),
   };
   try {
     const response = await fetch(uri, options);
-    if (response.ok) {
-      console.log("Contact put successfully");
-      return await getAgenda();
-    } else console.error("Error ", response.status);
-  } catch {
+    if (!response.ok) {
+      console.log(response.status, " error");
+    }
+  }
+  catch {
     console.error("Error putting contact");
   }
 };
