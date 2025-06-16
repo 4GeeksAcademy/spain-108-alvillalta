@@ -1,35 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
-import { putContact } from "../services.js"
+import { putContact } from "../services/contact-services.js"
 
 
 export const EditContact = () => {
 
-    // Navigate
     const navigate = useNavigate();
 
-    // Global state variables
     const { store, dispatch } = useGlobalReducer();
     const contactToEdit = store.contactToEdit;
+    console.log(contactToEdit);
 
-    // Local state variables
     const [name, setName] = useState(contactToEdit.name);
     const [email, setEmail] = useState(contactToEdit.email);
     const [phone, setPhone] = useState(contactToEdit.phone);
     const [address, setAddress] = useState(contactToEdit.address);
 
-    // Controlled inputs
     const handleName = event => setName(event.target.value);
     const handleEmail = event => setEmail(event.target.value);
     const handlePhone = event => setPhone(event.target.value);
     const handleAddress = event => setAddress(event.target.value);
 
-    // Handlers
     const handleSubmitEditContact = async (event) => {
         event.preventDefault();
         const editedContact = {
@@ -39,20 +33,12 @@ export const EditContact = () => {
             "address": address,
             "id": contactToEdit.id
         }
-        const contacts = await putContact(editedContact);
-        if (!contacts) {
-            console.error("Error in AddContact component");
-        }
-        else {dispatch({
-            type: "get-agenda",
-            payload: contacts
-        });
+        await putContact(editedContact);
         navigate("/contacts");
-        }
     }
 
     const handleCancel = () => {
-       navigate("/contacts");
+        navigate("/contacts");
     }
 
     return (

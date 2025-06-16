@@ -1,11 +1,12 @@
 import React, { useEffect } from "react"
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+
+import starWarsDisplay from "../assets/star-wars-display.jpg";
 
 export const Home = () => {
 	return (
-		<div className="text-center mt-5">
-			<h3>Home</h3>
+		<div className="text-center my-4">
+			<img src={starWarsDisplay} className="img-fluid rounded"/>
 		</div>
 	);
 }; 
