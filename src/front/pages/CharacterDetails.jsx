@@ -16,9 +16,8 @@ export const CharacterDetails = () => {
 
     const { store, dispatch } = useGlobalReducer();
     const characterDetails = store.characterDetails;
-    const favorites = store.favorites
-    const favoriteTrue = favorites.find(favorite => favorite.id === characterId && favorite.like === true)
-
+    const favorites = store.favorites;
+    const favoriteTrue = favorites.find(favorite => favorite.id === characterId && favorite.like === true);
 
     useEffect(() => {
         const getCharacterDetailsInComponent = async () => {
@@ -26,7 +25,7 @@ export const CharacterDetails = () => {
             dispatch({
                 type: "GET-CHARACTER-DETAILS",
                 payload: characterDetailsInComponent
-            })
+            });
         };
         getCharacterDetailsInComponent();
     }, [])
@@ -66,14 +65,14 @@ export const CharacterDetails = () => {
                     <div className="col-md-8">
                         <h2 className="card-title py-3 ps-3">{characterDetails.name}</h2>
                         <ul className="list-group">
-                            <li className="list-group-item"><strong>Gender:</strong>{` ${characterDetails.gender}`}</li>
-                            <li className="list-group-item"><strong>Skin color:</strong>{` ${characterDetails.skin_color}`}</li>
-                            <li className="list-group-item"><strong>Hair color:</strong>{` ${characterDetails.hair_color}`}</li>
-                            <li className="list-group-item"><strong>Height:</strong>{` ${characterDetails.height}`}</li>
-                            <li className="list-group-item"><strong>Eye color:</strong>{` ${characterDetails.eye_color}`}</li>
-                            <li className="list-group-item"><strong>Mass:</strong>{` ${characterDetails.mass}`}</li>
-                            <li className="list-group-item"><strong>Homeworld:</strong>{` ${characterDetails.homeworld}`}</li>
-                            <li className="list-group-item"><strong>Birth year:</strong>{` ${characterDetails.birth_year}`}</li>
+                            <li className="list-group-item"><b>Gender:</b>{` ${characterDetails.gender}`}</li>
+                            <li className="list-group-item"><b>Skin color:</b>{` ${characterDetails.skin_color}`}</li>
+                            <li className="list-group-item"><b>Hair color:</b>{` ${characterDetails.hair_color}`}</li>
+                            <li className="list-group-item"><b>Height:</b>{` ${characterDetails.height}`}</li>
+                            <li className="list-group-item"><b>Eye color:</b>{` ${characterDetails.eye_color}`}</li>
+                            <li className="list-group-item"><b>Mass:</b>{` ${characterDetails.mass}`}</li>
+                            {/* <li className="list-group-item"><b>Homeworld:</b>{` ${characterDetails.homeworld}`}</li> */}
+                            <li className="list-group-item"><b>Birth year:</b>{` ${characterDetails.birth_year}`}</li>
                         </ul>
                         <div className="d-flex justify-content-start gap-2 py-3 ps-3">
                             <button onClick={handleBack} className="btn btn-secondary ">Back</button>

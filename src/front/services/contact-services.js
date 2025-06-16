@@ -43,7 +43,8 @@ export const postContact = async (newContact) => {
     if (!response.ok) {
       console.log(response.status, " error");
     }
-  } catch {
+  }
+  catch {
     console.error("Error posting contact");
   }
 };
@@ -57,7 +58,8 @@ export const deleteContact = async (contactId) => {
       console.log(response.status, " error");
     }
     return await getAgenda();
-  } catch {
+  }
+  catch {
     console.error("Error deleting contact");
   }
 };
@@ -74,7 +76,8 @@ export const putContact = async (editedContact) => {
     if (!response.ok) {
       console.log(response.status, " error");
     }
-  } catch {
+  }
+  catch {
     console.error("Error putting contact");
   }
 };

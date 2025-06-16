@@ -31,11 +31,11 @@ export const Navbar = () => {
 					<Link to="/characters">
 						<span className="navbar-brand mb-0 h1">Characters</span>
 					</Link>
-					<Link to="/starships">
-						<span className="navbar-brand mb-0 h1">Starships</span>
-					</Link>
 					<Link to="/planets">
 						<span className="navbar-brand mb-0 h1">Planets</span>
+					</Link>
+					<Link to="/starships">
+						<span className="navbar-brand mb-0 h1">Starships</span>
 					</Link>
 					<Link to="/contacts">
 						<span className="navbar-brand mb-0 h1">Contacts</span>

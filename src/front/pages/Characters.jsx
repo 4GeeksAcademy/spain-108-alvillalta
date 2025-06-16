@@ -13,8 +13,8 @@ export const Characters = () => {
     const navigate = useNavigate();
 
     const { store, dispatch } = useGlobalReducer();
-    const characters = store.characters
-    const favorites = store.favorites
+    const characters = store.characters;
+    const favorites = store.favorites;
 
 
     //  Fetch characters
@@ -24,7 +24,7 @@ export const Characters = () => {
             dispatch({
                 type: "GET-CHARACTERS",
                 payload: charactersInComponent
-            })
+            });
         };
         getCharactersInComponent();
     }, [])
