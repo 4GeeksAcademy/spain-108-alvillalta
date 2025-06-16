@@ -41,7 +41,7 @@ export const StarshipDetails = () => {
         navigate("/starships");
     }
 
-    const handleFavorites = (starshipid) => {
+    const handleFavorites = () => {
         const favoriteExists = favorites.find(favorite => favorite.id === starshipFavoriteId);
         if (!favoriteExists) {
             dispatch({
@@ -82,7 +82,7 @@ export const StarshipDetails = () => {
                         </ul>
                         <div className="d-flex justify-content-start gap-2 py-3 ps-3">
                             <button onClick={handleBack} className="btn btn-secondary ">Back</button>
-                            <button onClick={() => handleFavorites(starshipId)}
+                            <button onClick={handleFavorites}
                                 type="button" className="btn btn-warning">
                                 <i className={`fa-${favoriteTrue ? "solid" : "regular"} fa-heart`}></i>
                             </button>
