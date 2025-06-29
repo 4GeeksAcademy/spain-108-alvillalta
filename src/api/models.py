@@ -29,7 +29,46 @@ class Posts(db.Model):
     image_url = db.Column(db.String())
     
 
-class Medias(db.Model):
+class Media(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.Enum("image", "video", "audio", name='media_type'))
+    media_type = db.Column(db.Enum("image", "video", "audio", name="media_type"))
     url = db.Column(db.String())
+    
+
+class Comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String())
+
+
+class Followers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+
+class CharacterFavorites(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+
+class Characters(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), unique=True)
+    height = db.Column(db.Float)
+    mass = db.Column(db.Integer)
+    hair_color = db.Column(db.String(), nullable=True)
+    skin_color = db.Column(db.String(), nullable=True)
+    eye_color = db.Column(db.String(), nullable=True)
+    birth_year = db.Column(db.Date())
+    gender = db.Column(db.Enum("none", "male", "female", "other", name="gender"))
+
+class PlanetFavorites(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+class Planets(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), unique=True)
+    diameter = db.Column(db.Integer)
+    rotation_period = db.Column(db.Integer)
+    orbital_period = db.Column(db.Integer)
+    gravity = db.Column(db.Integer)
+    population = db.Column(db.Integer, nullable=True)
+    climate = db.Column(db.String())
+    terrain = db.Column(db.String())
