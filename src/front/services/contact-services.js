@@ -8,9 +8,11 @@ const postUser = async () => {
     const response = await fetch(uri, options);
     if (!response.ok) {
       console.log(response.status, " error");
+      return [];
     }
   } catch {
     console.error("Error creating a user");
+    return [];
   }
 };
 
@@ -20,7 +22,7 @@ export const getAgenda = async () => {
   try {
     const response = await fetch(uri, options);
     if (response.status === 404) {
-      return postUser();
+      postUser();
     } else if (!response.ok) {
       console.log(response.status, " error");
     }
